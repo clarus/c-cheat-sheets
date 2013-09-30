@@ -6,6 +6,7 @@
 \usepackage[french]{babel}
 \usepackage[colorlinks, linkcolor=black]{hyperref}
 \usepackage{verbatim}
+\usepackage{tabu}
 
 \begin{document}
   \title{Entrées-sorties et variables}
@@ -21,10 +22,11 @@
 
 // "main" est toujours le nom de la fonction principale :
 int main() {
-  // Un message de bienvenue :
+  // Un message de bienvenue. Les instructions se
+  // terminent par un ";".
   printf("Bonjour.\n");
   
-  // On termine en retournant par défaut la valeur 0 :
+  // On fini le programme en retournant la valeur 0 :
   return 0;
 }
   \end{verbatim}
@@ -43,6 +45,34 @@ gcc -Wall ex1.c -o ex1
   \end{description}
   
   \section{Variables}
+  Une variable permet de stocker des valeurs et de les modifier.
+  \begin{description}
+    \item[Déclaration] Un type suivit d'une liste de noms. Les noms de variables contiennent des lettres sans accents, des chiffres ou des underscores (symbole \texttt{\_}). Ils ne peuvent pas commencer par un chiffre. On peut donner des valeurs initiales.
+      \begin{verbatim}
+int var1, x = 12, n;
+      \end{verbatim}
+    \item[Types] Quelques types standards :\\
+      \begin{tabu}{c|c|c|c}
+        Type & Taille\footnote{Peut dépendre de l'architecture, valeurs pour un PC 64 bits sous Linux.} & Contenu & Intervalle\\
+        \hline
+        \texttt{char} & 8 bits & entier & $[- 128; 127]$\\
+        \texttt{short} & 16 bits & entier & $[-32.768; 32 .67]$\\
+        \texttt{int} & 32 bits & entier & $[- 2.147.483.648; 2.147.483.647]$\\
+        \texttt{long} & 64 bits & entier & $[- 2^{63}; 2^{63} - 1]$\\
+        \hline
+        \texttt{unsigned char} & 8 bits & entier & $[0; 255]$\\
+        \texttt{unsigned short} & 16 bits & entier & $[0; 65.535]$\\
+        \texttt{unsigned int} & 32 bits & entier & $[0; 4.294.967.295]$\\
+        \texttt{unsigned long} & 64 bits & entier & $[0; 2^{64} - 1]$\\
+        \hline
+        \texttt{float} & 32 bits & flottant & $3,4 \times 10^{-38}$ à $3,4 \times 10^{38}$\\
+        \texttt{double} & 64 bits & flottant & $1,7 \times 10^{-308}$ à $1,7 \times 10^{308}$
+      \end{tabu}
+    \item[Modification] La variable à modifier est à gauche. Pour ajouter 3 à \texttt{n} :
+      \begin{verbatim}
+n = n + 3;
+      \end{verbatim}
+  \end{description}
   
   \section{Entrées-sorties}
 \end{document}
