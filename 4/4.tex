@@ -1,0 +1,113 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[default, osfigures, scale=0.95]{opensans}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[colorlinks, linkcolor=black]{hyperref}
+\usepackage{fullpage}
+\usepackage{verbatim}
+
+\begin{document}
+  \title{4) Boucles}
+  \author{Programmation C (2013-2014)}
+  \date{Guillaume Claret}
+  \maketitle
+  
+  Les boucles permettent de répéter un séquence d'instructions. On indente dès que l'on rentre dans une boucle.
+  
+  \section{Boucle \texttt{while}}
+  Répète une suite d'instructions tant qu'une condition est vraie. C'est la forme de boucle la plus générale.
+  \begin{verbatim}
+while (condition) {
+  ... // code à exécuter tant que la condition est vraie
+}
+  \end{verbatim}
+  De même que pour le \texttt{if}, on peut omettre les accolades si le code ne contient qu'une seule instruction~:
+  \begin{verbatim}
+while (condition)
+  ...; // une seule ligne
+  \end{verbatim}
+  Exemple redemandant un nombre à l'utilisateur tant que celui-ci n'est plus grand que $10$~:
+  \begin{verbatim}
+int n = 0;
+while (n < 10) {
+  printf("Entrez un nombre supérieur à 10 : ");
+  scanf("%d", &n);
+}
+printf("n = %d\n", n); // affiche un entier supérieur à 10
+  \end{verbatim}
+  Exemple de boucle infinie~:
+  \begin{verbatim}
+while (1)
+  printf("Infini ...\n"); // affiche en boucle ce message
+  \end{verbatim}
+  
+  \section{Boucle \texttt{do}-\texttt{while}}
+  Similaire à la boucle \texttt{while}, mais s'exécute au moins un tour car teste la condition à la fin plutôt qu'au début~:
+  \begin{verbatim}
+do {
+  ... // code à exécuter tant que la condition est vraie
+} while (condition); // exception de syntaxe : toujours mettre un point-virgule ici
+  \end{verbatim}
+  On pourrait remplacer~:
+  \begin{verbatim}
+do {
+  instr;
+} while (condition);
+  \end{verbatim}
+  par l'équivalent qui duplique \texttt{instr}~:
+  \begin{verbatim}
+instr;
+while (condition) {
+  instr;
+}
+  \end{verbatim}
+  
+  \section{Boucle \texttt{for}}
+  
+  \section{Instructions \texttt{break} et \texttt{continue}}
+  L'instruction \texttt{break} permet de sortir prématurément d'une boucle~:
+  \begin{verbatim}
+int n = 0;
+while (1) {
+  if (n == 10)
+    break; // le break sort de ce while infini
+  printf("message\n"); // ce message n'est affiché que 10 fois
+  n++;
+}
+  \end{verbatim}
+  L'instruction \texttt{continue} permet de passer directement au tour de boucle suivant~:
+  \begin{verbatim}
+do {
+  printf("Entrez n et m positifs de somme inférieure à 10 : ");
+  scanf("%d", &n);
+  if (n > 10)
+    continue; // si n est déjà plus grand que 10, on peut directement tout redemmander
+  scanf("%d", &m);
+} while (n + m > 10);
+  \end{verbatim}
+  
+  \section{Équivalences}
+  \begin{tabular}{c|c|c}
+    Version 1 & Version 2 & Version 3\\
+    \hline
+    \begin{minipage}{4cm}
+      \begin{verbatim}
+
+dfghsdhsdfh
+dg
+      \end{verbatim}
+    \end{minipage} &
+    \begin{minipage}{4cm}
+      \begin{verbatim}
+dfghsdhsdfh
+      \end{verbatim}
+    \end{minipage} &
+    \begin{minipage}{4cm}
+      \begin{verbatim}
+dfghsdhsdfh
+      \end{verbatim}
+    \end{minipage}
+  \end{tabular}
+\end{document}
