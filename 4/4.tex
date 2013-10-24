@@ -50,21 +50,19 @@ do {
   ... // code à exécuter tant que la condition est vraie
 } while (condition); // exception de syntaxe : toujours mettre un point-virgule ici
   \end{verbatim}
-  On pourrait remplacer~:
-  \begin{verbatim}
-do {
-  instr;
-} while (condition);
-  \end{verbatim}
-  par l'équivalent qui duplique \texttt{instr}~:
-  \begin{verbatim}
-instr;
-while (condition) {
-  instr;
-}
-  \end{verbatim}
   
   \section{Boucle \texttt{for}}
+  Forme de boucle spécialisée pour les énumérations~:
+  \begin{verbatim}
+for (initialisation; condition; action à chaque fin de tour) {
+  ... // instructions à répéter
+}
+  \end{verbatim}
+  Exemple typique~:
+  \begin{verbatim}
+for (i = 0; i <= 9; i++)
+  printf("%d\n", i); // affiche tous les chiffres de 0 à 9
+  \end{verbatim}
   
   \section{Instructions \texttt{break} et \texttt{continue}}
   L'instruction \texttt{break} permet de sortir prématurément d'une boucle~:
@@ -92,21 +90,72 @@ do {
   \begin{tabular}{c|c|c}
     Version 1 & Version 2 & Version 3\\
     \hline
-    \begin{minipage}{4cm}
+    \begin{minipage}[t]{4cm}
       \begin{verbatim}
-
-dfghsdhsdfh
-dg
+do {
+  instr;
+} while (condition);
       \end{verbatim}
     \end{minipage} &
-    \begin{minipage}{4cm}
+    \begin{minipage}[t]{4cm}
       \begin{verbatim}
-dfghsdhsdfh
+instr;
+while (condition) {
+  instr;
+}
       \end{verbatim}
     \end{minipage} &
-    \begin{minipage}{4cm}
+    \begin{minipage}[t]{4cm}
       \begin{verbatim}
-dfghsdhsdfh
+while (1) {
+  instr;
+  if (condition)
+    break;
+}
+      \end{verbatim}
+    \end{minipage}\\
+    \hline
+    \begin{minipage}[t]{4cm}
+      \begin{verbatim}
+for (init; cond; fin)
+  instr;
+      \end{verbatim}
+    \end{minipage} &
+    \begin{minipage}[t]{4cm}
+      \begin{verbatim}
+init;
+while (cond) {
+  instr;
+  final;
+}
+      \end{verbatim}
+    \end{minipage} &
+    \begin{minipage}[t]{4cm}
+      \begin{verbatim}
+init;
+while (1) {
+  if (cond)
+    break;
+  instr;
+  final;
+}
+      \end{verbatim}
+    \end{minipage}\\
+    \hline
+    \begin{minipage}[t]{4cm}
+      \begin{verbatim}
+while (condition);
+      \end{verbatim}
+    \end{minipage} &
+    \begin{minipage}[t]{4cm}
+      \begin{verbatim}
+while (condition)
+  ;
+      \end{verbatim}
+    \end{minipage} &
+    \begin{minipage}[t]{4cm}
+      \begin{verbatim}
+// code vide
       \end{verbatim}
     \end{minipage}
   \end{tabular}
