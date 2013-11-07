@@ -1,0 +1,30 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[default, osfigures, scale=0.95]{opensans}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[colorlinks, linkcolor=black]{hyperref}
+\usepackage{fullpage}
+\usepackage{verbatim}
+\usepackage{tikz}
+
+\begin{document}
+  \title{5) Pointeurs}
+  \author{Programmation C (2013-2014)}
+  \date{Guillaume Claret}
+  \maketitle
+  
+  Les pointeurs représentent des adresses mémoires. Ils seront surtout utilisés pour manipuler certaines structures de données comme les tableaux, ou pour le passage d'arguments par référence.
+  
+  \section{Variables et mémoire}
+  \tikzset{var/.style={draw, minimum height=0.7cm, minimum width=2cm}}
+  \begin{tikzpicture}
+    \node[var] at (0, 0) {12};
+    \node[var] at (3, 0) {3};
+    \node[var] at (6, 0) {18};
+  \end{tikzpicture}
+  
+  \section{Définition et exemples}
+  
+\end{document}
