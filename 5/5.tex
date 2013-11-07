@@ -18,11 +18,15 @@
   Les pointeurs représentent des adresses mémoires. Ils seront surtout utilisés pour manipuler certaines structures de données comme les tableaux, ou pour le passage d'arguments par référence.
   
   \section{Variables et mémoire}
-  \tikzset{var/.style={draw, minimum height=0.7cm, minimum width=2cm}}
+  \tikzset{value/.style={draw, minimum height=0.7cm, minimum width=2cm}}
+  \tikzset{var/.style={below=0.4cm}}
   \begin{tikzpicture}
-    \node[var] at (0, 0) {12};
-    \node[var] at (3, 0) {3};
-    \node[var] at (6, 0) {18};
+    \node[value] (a) at (0, 0) {$12$};
+    \node[value] (b) at (3, 0) {$3$};
+    \node[value] (c) at (6, 0) {$18$};
+    \node[var] at (a) {a};
+    \node[var] at (b) {b};
+    \node[var] at (c) {c};
   \end{tikzpicture}
   
   \section{Définition et exemples}
