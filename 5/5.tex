@@ -9,6 +9,9 @@
 \usepackage{verbatim}
 \usepackage{tikz}
 
+\tikzset{value/.style={draw, minimum height=0.7cm, minimum width=1cm}}
+\tikzset{var/.style={below=0.4cm}}
+
 \begin{document}
   \title{5) Pointeurs}
   \author{Programmation C (2013-2014)}
@@ -18,17 +21,129 @@
   Les pointeurs représentent des adresses mémoires. Ils seront surtout utilisés pour manipuler certaines structures de données comme les tableaux, ou pour le passage d'arguments par référence.
   
   \section{Variables et mémoire}
-  \tikzset{value/.style={draw, minimum height=0.7cm, minimum width=2cm}}
-  \tikzset{var/.style={below=0.4cm}}
-  \begin{tikzpicture}
-    \node[value] (a) at (0, 0) {$12$};
-    \node[value] (b) at (3, 0) {$3$};
-    \node[value] (c) at (6, 0) {$18$};
-    \node[var] at (a) {a};
-    \node[var] at (b) {b};
-    \node[var] at (c) {c};
-  \end{tikzpicture}
+  Un programme réside entièrement en mémoire vive et ne peut accéder aux fichiers que via des fonctions dédiées (comme \texttt{fopen()} en C). Une mémoire vive de taille $n$ est une liste d'octets numérotés de $0$ à $n - 1$ (un octet est une série de 8 bits). Le numéro d'un octet est appelé son \emph{adresse}. Par exemple, pour une mémoire de 4 Go, les adresses vont de $0$ à~:
+  \[
+    4 * G - 1 = 4 * K^3 - 1 = 4 * (2^{10})^3 - 1 = 2^{32} - 1 = 4294967295
+  \]
+  (en informatique un kilo (K) vaut $2^{10} = 1024$ et non pas $1000$).
+  
+  En C on remplit la mémoire en déclarant des variables. Celles-ci sont attribuées à des adresses quelconques, en fonction de ce qui est encore disponible. Par exemple~:
+  \begin{verbatim}
+int a = 12, b = 3; char c = 18;
+  \end{verbatim}
+  alloue les trois cases suivantes~:
+  \begin{center}
+    \begin{tikzpicture}
+      \node[value, minimum width=4cm] (a) at (0, 0) {$12$};
+      \node[value, minimum width=4cm] (b) at (5, 0) {$3$};
+      \node[value, minimum width=4cm] (c) at (10, 0) {$18$};
+      \node[var] at (a) {\texttt{int a}};
+      \node[var] at (b) {\texttt{int b}};
+      \node[var] at (c) {\texttt{char c}};
+    \end{tikzpicture}
+  \end{center}
+  Comme les \texttt{int} sont représentés par quatre octets et les \texttt{char} par un octet, on alloue plus exactement neuf octets~:
+  \begin{center}
+    \begin{tikzpicture}
+      \node[value, minimum width=1cm] (a) at (0, 0) {};
+      \node[value, minimum width=1cm] at (1, 0) {};
+      \node[value, minimum width=1cm] at (2, 0) {};
+      \node[value, minimum width=1cm] at (3, 0) {};
+      \node[value, minimum width=1cm] (b) at (5, 0) {};
+      \node[value, minimum width=1cm] at (6, 0) {};
+      \node[value, minimum width=1cm] at (7, 0) {};
+      \node[value, minimum width=1cm] at (8, 0) {};
+      \node[value, minimum width=1cm] (c) at (10, 0) {};
+      \node[var] at (a) {\texttt{int a}};
+      \node[var] at (b) {\texttt{int b}};
+      \node[var] at (c) {\texttt{char c}};
+    \end{tikzpicture}
+  \end{center}
+  On note \texttt{\&a} l'adresse du premier octet de \texttt{a}, et on l'appelle \emph{l'adresse} de \texttt{a}. Par convention l'adresse $0$, notée plus souvent \texttt{NULL}, représente une adresse invalide et est utilisée comme adresse bidon.
   
   \section{Définition et exemples}
-  
+  Un pointeur est une variable contenant une adresse. On les déclare en ajoutant une étoile au type des variables sur lequels elles pointent~:
+  \begin{verbatim}
+int * p;
+  \end{verbatim}
+  On initialise \texttt{p} en récupérant l'adresse d'une autre variable de type \texttt{int}~:
+  \begin{verbatim}
+p = &a;
+  \end{verbatim}
+  On obtient~:
+  \begin{center}
+    \begin{tikzpicture}
+      \node[value, minimum width=2cm] (a) at (0, 0) {$12$};
+      \node[value, minimum width=2cm] (b) at (3, 0) {$3$};
+      \node[value, minimum width=2cm] (c) at (6, 0) {$18$};
+      \node[value, minimum width=2cm] (p) at (9, 0) {\texttt{\& a}};
+      \node[var] at (a) {\texttt{int a}};
+      \node[var] at (b) {\texttt{int b}};
+      \node[var] at (c) {\texttt{char c}};
+      \node[var] at (p) {\texttt{int * p}};
+      \draw[->, >=latex] (p.north) to[bend right] (a.north);
+    \end{tikzpicture}
+  \end{center}
+  On affiche un pointeur avec \texttt{\%p}~:
+  \begin{verbatim}
+printf("p = %p\n", p);
+  \end{verbatim}
+  (c'est une adresse, donc généralement un nombre quelconque et assez grand). On peut modifier \texttt{p}, à condition de toujours pointer sur une donnée de type \texttt{int}~:
+  \begin{verbatim}
+p = &b;
+  \end{verbatim}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[value, minimum width=2cm] (a) at (0, 0) {$12$};
+      \node[value, minimum width=2cm] (b) at (3, 0) {$3$};
+      \node[value, minimum width=2cm] (c) at (6, 0) {$18$};
+      \node[value, minimum width=2cm] (p) at (9, 0) {\texttt{\& b}};
+      \node[var] at (a) {\texttt{int a}};
+      \node[var] at (b) {\texttt{int b}};
+      \node[var] at (c) {\texttt{char c}};
+      \node[var] at (p) {\texttt{int * p}};
+      \draw[->, >=latex] (p.north) to[bend right] (b.north);
+    \end{tikzpicture}
+  \end{center}
+  Pour lire la valeur pointée par \texttt{p} (déréférencement) on utilise aussi l'étoile (ce symbole a donc deux significations, typage et déréférencement)~:
+  \begin{verbatim}
+printf("%d\n", *p);
+  \end{verbatim}
+  affiche la valeur de \texttt{b}, c'est-à-dire $3$. On peut aussi directement modifier \texttt{b} en passant par \texttt{p}~:
+  \begin{verbatim}
+*p = 23;
+  \end{verbatim}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[value, minimum width=2cm] (a) at (0, 0) {$12$};
+      \node[value, minimum width=2cm] (b) at (3, 0) {$23$};
+      \node[value, minimum width=2cm] (c) at (6, 0) {$18$};
+      \node[value, minimum width=2cm] (p) at (9, 0) {\texttt{\& b}};
+      \node[var] at (a) {\texttt{int a}};
+      \node[var] at (b) {\texttt{int b}};
+      \node[var] at (c) {\texttt{char c}};
+      \node[var] at (p) {\texttt{int * p}};
+      \draw[->, >=latex] (p.north) to[bend right] (b.north);
+    \end{tikzpicture}
+  \end{center}
+  Enfin, les pointeurs peuvent eux-mêmes pointer sur des pointeurs~:
+  \begin{verbatim}
+int ** p2 = &p;
+  \end{verbatim}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[value, minimum width=2cm] (a) at (0, 0) {$12$};
+      \node[value, minimum width=2cm] (b) at (3, 0) {$23$};
+      \node[value, minimum width=2cm] (c) at (6, 0) {$18$};
+      \node[value, minimum width=2cm] (p) at (9, 0) {\texttt{\& b}};
+      \node[value, minimum width=2cm] (p2) at (12, 0) {\texttt{\& p}};
+      \node[var] at (a) {\texttt{int a}};
+      \node[var] at (b) {\texttt{int b}};
+      \node[var] at (c) {\texttt{char c}};
+      \node[var] at (p) {\texttt{int * p}};
+      \node[var] at (p2) {\texttt{int ** p2}};
+      \draw[->, >=latex] (p.north) to[bend right] (b.north);
+      \draw[->, >=latex] (p2.north) to[bend right] (p.north);
+    \end{tikzpicture}
+  \end{center}
 \end{document}
